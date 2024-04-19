@@ -7,25 +7,19 @@ export function cadastrar(nomeProduto, dataValidade, quantidade, lote, tipoProdu
         "tipoProduto": tipoProduto
     }
 
-    fetch("http://localhost:3333/api/cadastroProduto", {
+    fetch("https://localhost:44385/api/Produto", {
         method: "POST",
+        mode: 'cors',
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(data)
     }).then((response) => response.json())
-    .then((result) => {
-        Swal.fire({
-            icon: "success",
-            title: "Cadastrado!",
-            text: "Produto Cadastrado com Sucesso."
-        });
-    })
     .catch((error) => {
         Swal.fire({
             icon: "error",
-            title: "Erro ao Cadastrar Produto!",
-            text: "Produto não cadastrado"
-        });
+            title: "Preencha os Campos Corretamente!",
+            text: "Preencha os Campos Corretamente!"
+        })
     })
 }

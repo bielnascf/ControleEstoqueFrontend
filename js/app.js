@@ -1,4 +1,4 @@
-import { cadastrar } from './cadastrar.js';
+import { cadastrar } from './produto.js';
 
 let nomeProduto = document.getElementById('nomeProduto');
 let dataValidade = document.getElementById('dataValidade');
@@ -39,24 +39,18 @@ formCadastro.addEventListener('submit', (e) => {
     }
 
     if (erros.length == 0) {
-        cadastrar(nomeProdutoV, dataValidadeV, quantidadeV, loteV, tipoProdutoV);
-
-        nomeProduto.value = "";
-        dataValidade.value = "";
-        quantidade.value = "";
-        lote.value = "";
-        tipoProduto.value = "";
+        Swal.fire({
+            icon: "success",
+            title: "Produto Cadastrado com Sucesso!",
+            text: "Produto Cadastrado com Sucesso!"
+        }).then(() => {
+            cadastrar(nomeProdutoV, dataValidadeV, quantidadeV, loteV, tipoProdutoV);
+        })
     } else {
         Swal.fire({
             icon: "error",
             title: "Preencha os Campos Corretamente!",
             text: erros.join(" // ")
         });
-
-        nomeProduto.value = "";
-        dataValidade.value = "";
-        quantidade.value = "";
-        lote.value = "";
-        tipoProduto.value = "";
     }
 })
