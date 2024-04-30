@@ -45,6 +45,12 @@ formCadastro.addEventListener('submit', (e) => {
             text: "Produto Cadastrado com Sucesso!"
         }).then(() => {
             cadastrar(nomeProdutoV, dataValidadeV, quantidadeV, loteV, tipoProdutoV);
+
+            nomeProduto.value = ""
+            dataValidade.value = ""
+            quantidade.value = ""
+            lote.value = ""
+            tipoProduto.value = ""
         })
     } else {
         Swal.fire({
