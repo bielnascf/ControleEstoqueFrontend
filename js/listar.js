@@ -29,6 +29,7 @@ function renderizar(produtos) {
     }
 
     for(let produto of produtos) {
+        let idProduto = produto.id;
         let linha = `
             <tr>
                 <td>${produto.id}</td>
@@ -37,7 +38,7 @@ function renderizar(produtos) {
                 <td>${produto.quantidade}</td>
                 <td>${produto.lote}</td>
                 <td>${produto.tipoProduto}</td>
-                <td><img class="btnExcluir" src="../assets/ico/delete-2-svgrepo-com.svg" onclick="excluir(${produto.id})"></img> <img class="btnEdit" src="../assets/ico/edit-svgrepo-com.svg" onclick="alterar(${produto.id})"></img></td>
+                <td><img class="btnExcluir" src="../assets/ico/delete-2-svgrepo-com.svg" onclick="excluir(${idProduto})"></img> <img class="btnEdit" src="../assets/ico/edit-svgrepo-com.svg" onclick="alterar(${idProduto})"></img></td>
             </tr>
         `
 
@@ -88,7 +89,7 @@ function excluir(id) {
     });
 }
 
-function alterar(id) {
+function alterar(id, produto) {
     Swal.fire({
         title: "Alterar Produto",
         icon: "info",
@@ -129,28 +130,46 @@ function alterar(id) {
         confirmButtonText: "Alterar",
         cancelButtonText: "Cancelar"
     }).then((result) => {
-        console.log(result)
-        // if(result.isConfirmed) {
-        //     fetch(`https://localhost:44385/api/Produto/${id}`, {
-        //         method: "PUT",
-        //         mode: 'cors',
-        //         headers: {
-        //             "Content-Type": "application/json"
-        //         },
-        //         body: JSON.stringify({})
-        //         }).then((response) => response.json())
-        //         .then((result) => {
-        //             console.log(result)
-        //             // renderizar(result);
-        //         })
-        //         .catch((error) => {
-        //             Swal.fire(
-        //                 "Erro",
-        //                 "Erro ao Listar os Dados!",
-        //                 "error"
-        //             );
-        //     })
-        // }
+        let nomeProdutoV = document.getElementById('nomeProduto').value;
+        let dataValidadeV = document.getElementById('dataValidade').value;
+        let quantidadeV = document.getElementById('quantidade').value;
+        let loteV = document.getElementById('lote').value;
+        let tipoProdutoV = document.getElementById('tipoProduto').value;
+
+        produto.nomeProduto = nomeProdutoV
+        produto.dataValidade = dataValidadeV
+        produto.quantidade = quantidadeV
+        produto.lote = loteV
+        produto.tipoProduto = tipoProdutoV
+
+        let novoProduto = {
+            nomeProduto: nomeProdutoV,
+            dataValidade: dataValidadeV,
+            quantidade: quantidadeV,
+            lote: loteV,
+            tipoProduto: tipoProdutoV
+        }
+
+        if(result.isConfirmed) {
+            fetch(`https://localhost:44385/api/Produto/${id}`, {
+                method: "PUT",
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(novoProduto)
+                })
+                .then((result) => {
+                    renderizar(result);
+                })
+                .catch((error) => {
+                    Swal.fire(
+                        "Erro",
+                        "Erro ao Listar os Dados!",
+                        "error"
+                    );
+            })
+        }
     })
 }
 
