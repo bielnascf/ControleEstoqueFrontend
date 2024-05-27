@@ -30,6 +30,15 @@ function renderizar(produtos) {
 
     for(let produto of produtos) {
         let idProduto = produto.id;
+
+        let produtoObject = {
+            id: produto.id,
+            nomeProduto: produto.nomeProduto,
+            dataValidade: produto.dataValidade,
+            quantidade: produto.quantidade,
+            lote: produto.lote,
+            tipoProduto: produto.tipoProduto
+        }
         let linha = `
             <tr>
                 <td>${produto.id}</td>
@@ -89,7 +98,7 @@ function excluir(id) {
     });
 }
 
-function alterar(id, produto) {
+function alterar(id) {
     Swal.fire({
         title: "Alterar Produto",
         icon: "info",
@@ -136,13 +145,7 @@ function alterar(id, produto) {
         let loteV = document.getElementById('lote').value;
         let tipoProdutoV = document.getElementById('tipoProduto').value;
 
-        produto.nomeProduto = nomeProdutoV
-        produto.dataValidade = dataValidadeV
-        produto.quantidade = quantidadeV
-        produto.lote = loteV
-        produto.tipoProduto = tipoProdutoV
-
-        let novoProduto = {
+        const novoProduto = {
             nomeProduto: nomeProdutoV,
             dataValidade: dataValidadeV,
             quantidade: quantidadeV,
@@ -158,16 +161,14 @@ function alterar(id, produto) {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(novoProduto)
+            }).then(data => {
+                Swal.fire(
+                    "Sucesso!",
+                    "Produto alterado com sucesso!",
+                    "success"
+                ).then(() => {
+                    listar();
                 })
-                .then((result) => {
-                    renderizar(result);
-                })
-                .catch((error) => {
-                    Swal.fire(
-                        "Erro",
-                        "Erro ao Listar os Dados!",
-                        "error"
-                    );
             })
         }
     })
